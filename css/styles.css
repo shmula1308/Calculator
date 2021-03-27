@@ -93,7 +93,7 @@ body {
 
 .arithmetic-btns-container {
   display: grid;
-  grid-template-columns: 60px;
+  grid-template-columns: 1fr;
   grid-column: 4/5;
   grid-row: 2/7;
 }
@@ -115,6 +115,7 @@ body {
 .span-2 {
   display: flex;
   justify-content: flex-start;
+  align-items: center;
   padding-left: 25px;
   grid-column: 1/3;
 }
