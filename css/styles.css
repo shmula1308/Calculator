@@ -18,16 +18,15 @@ body {
 }
 
 .app-container {
-  background-color: antiquewhite;
-  width: 240px;
-  max-width: 240px;
-  margin: 0 auto;
+  background-color: #8e8e8e;
   font-size: 0;
   border-radius: 5px;
-  overflow: hidden;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(6, 1fr);
+  grid-gap: 1px;
+  border: 1px solid #8e8e8e;
+  overflow: hidden;
 }
 
 /* BUTTONS */
@@ -39,6 +38,19 @@ body {
   cursor: pointer;
   font-size: 1.2rem;
   margin: 0;
+  outline: none;
+}
+
+.helper-btn:active {
+  background-color: #a9a9a9;
+}
+
+.btn:active {
+  background-color: #b2b2b2;
+}
+
+.arithmetic-btn:active {
+  background-color: #c47425;
 }
 
 /* DISPLAY */
@@ -51,6 +63,9 @@ body {
   align-items: flex-end;
   grid-column: 1/5;
   grid-row: 1/2;
+  font-family: "Roboto", sans-serif;
+  font-weight: 100;
+  color: #ffffff;
 }
 
 .number {
@@ -104,7 +119,6 @@ body {
   grid-column: 1/3;
 }
 
-/* .grid-sections {
-  display: grid;
-  grid-gap: 3px;
-} */
+.grid-sections {
+  grid-gap: 1px;
+}
