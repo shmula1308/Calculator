@@ -41,6 +41,10 @@ body {
   outline: none;
 }
 
+.clear-btn {
+  display: none;
+}
+
 .helper-btn:active {
   background-color: #a9a9a9;
 }
