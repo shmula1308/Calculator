@@ -34,7 +34,7 @@ body {
 .btn {
   display: block;
   border: 0;
-  padding: 0.8em 1em;
+  padding: 0.8em;
   cursor: pointer;
   font-size: 1.2rem;
   margin: 0;
@@ -68,7 +68,7 @@ body {
   color: #ffffff;
 }
 
-.number {
+.result-container {
   font-size: 3.1rem;
   font-weight: 100;
   margin-right: 0.2em;
