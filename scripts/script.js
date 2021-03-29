@@ -1,4 +1,6 @@
 const appContainer = document.querySelector('.app-container');
+const digitContainer = document.querySelector('.digit-btns-container');
+const operationsContainer = document.querySelector('.arithmetic-btns-container');
 const resultCont = document.querySelector('.result-container');
 const clearAllBtn = document.querySelector('.all-clear');
 const clearBtn = document.querySelector('.clear-btn');
@@ -9,12 +11,13 @@ let num2 = '';
 let mathOperation = "";
 let result = "";
 
-appContainer.addEventListener('click', captureInput) 
+
+digitContainer.addEventListener('click',getOperands);
+operationsContainer.addEventListener('click',getOperation);
 clearBtn.addEventListener('click',clear);
 clearAllBtn.addEventListener('click',clearAll);
 
 function displayResult(result) {
-    console.log(result.toString().length)
     if(result.toString().length > 8) {
         resultCont.textContent = "ERR";
         return;
@@ -26,56 +29,38 @@ function displayResult(result) {
     input = "";
 }
 
-function updateDisplay(value) {
-    if(resultCont.textContent === '0') {
-        resultCont.textContent = "";
-        resultCont.textContent += value;
-    } else if(mathOperation && input.length === 1) {
-        resultCont.textContent = "";
-        resultCont.textContent += value;
-    } else if(input.length > 8) {
+function updateDisplay(value){
+    if(value.length > 8) {
         return;
     }
-    else {
-        resultCont.textContent += value;
+    if(value.length === 1 && !num2 && !mathOperation) {
+        changeClear();
     }
+    // if(value.length === 1 && num1 && mathOperation) {
+    //     changeClear();
+    // }
+   
+    resultCont.textContent = "";
+    resultCont.textContent += value;
 }
 
-
-function captureInput(ev) {
-    let value = ev.target.dataset.value;
-    if(ev.target.matches('button')){
-        if(value === '/' || value === '-' || value === '+' || value === '*' ) {
-            if(num1) {
-                input = "";
-                mathOperation = value;
-            } else if(num1 && mathOperation) {
-                mathOperation = value;
-                input = "";
-            }
-            else {
-                num1 = input;
-                input = "";
-                mathOperation = value;
-            }    
-            
-        } else if(value === "=" ) {
-            num2 = input;
-            input = "";
-            getResult(num1,num2,mathOperation);
-
-        } else if(value === "C" || value === "AC") {
-            return;
-        }
-        else {
-            changeClear();
-            input+= value;
-            updateDisplay(value);
-        }
-        return;
+function getOperation(ev) {
+    if(ev.target.dataset.value === "=") {
+        getResult(num1,num2,mathOperation)
     }
+    mathOperation = ev.target.dataset.value;
 }
 
+function getOperands(ev) {
+    if(!mathOperation) {
+        num1 += ev.target.dataset.value;
+        updateDisplay(num1);
+    } 
+    if(mathOperation) {
+        num2 += ev.target.dataset.value;
+        updateDisplay(num2);
+    }   
+}
 
 
 function getResult(num1,num2,operation) {
@@ -126,27 +111,37 @@ function percentage(num1,num2) {
 
 
 function changeClear() {
-    clearAllBtn.style.display = "none";
-    clearBtn.style.display = "block";
+    if(window.getComputedStyle(clearAllBtn,null).display === 'block') {
+        clearAllBtn.style.display = "none";
+        clearBtn.style.display = "block";
+    } else {
+        clearAllBtn.style.display = "block";
+        clearBtn.style.display = "none"; 
+    } 
 }
     
 
 
 function clear() {
-    if(mathOperation && input.length > 0) {
-        input = "";
+    if(num1 && !mathOperation && !num2) {
+        num1 = "";
         resultCont.textContent = "0";
-    } else if(mathOperation && input.length === 0) {
+        changeClear();
+    }
+    if(num1 && mathOperation && !num2) {
         mathOperation = "";
-    } else if(result) {
-        resultCont.textContent = "0";
-        result = "";
-        console.log(result,mathOperation,input,num1,num2)
+        changeClear();
     }
-    else {
+    if(num1 && mathOperation && num2) {
+        num2 = "";
         resultCont.textContent = "0";
+        changeClear();
     }
-    
+    // if(num1 && mathOperation && num2 && result) {
+    //     console.log('hello')
+    //     resultCont.textContent = "0";
+    //     changeClear();
+    // }
 }
 
 function clearAll() {
