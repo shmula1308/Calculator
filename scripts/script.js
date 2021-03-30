@@ -23,6 +23,9 @@ clearBtn.addEventListener('click',clear);
 clearAllBtn.addEventListener('click',clearAll);
 
 function displayResult(result) {
+    if(result === undefined) {
+        return;
+    }
     if(result.toString().length > 8) {
         resultCont.textContent = "ERR";
         return;
@@ -39,7 +42,7 @@ function updateDisplay(value){
     if(value.length > 8) {
         return;
     }
-    // changeClear();    
+    // changeClearBtn();    
     resultCont.textContent = "";
     resultCont.textContent += value;
 }
@@ -102,7 +105,7 @@ function getOperands(ev) {
 function getResult(num1,num2,operation) {
     if(operation === '/') {
         result = divide(num1,num2);
-        displayResult(result);
+        displayResult(result); // is this neccessary?
     }
     if(operation === '*') {
         result = multiply(num1,num2)
@@ -114,6 +117,7 @@ function getResult(num1,num2,operation) {
     }
     if(operation === '+') {
         result = add(num1,num2);
+        console.log(result)
         displayResult(result);
     }
     if(operation === '%') {
@@ -133,6 +137,7 @@ function multiply(num1,num2) {
 
 function add(num1,num2) {
     if(result) {
+        console.log(result,num2)
         return Number(result) + Number(num2);
     } else {
         return Number(num1) + Number(num2);
@@ -141,11 +146,26 @@ function add(num1,num2) {
 
 function divide(num1,num2) {
     if(result) {
-        return Number(result) / Number(num2);
+        return limitFloatPoints(result,num2)
     } else {
-        return Number(num1) / Number(num2);
+        return limitFloatPoints(num1,num2)
     }
 }
+
+function limitFloatPoints(value1,value2) {
+    let res = Number(value1) / Number(value2);
+    if(Math.floor(res) === res) {
+        return res;
+    }
+    if(!res) {
+        return;
+    } else {
+        let numberOfDecimals = res.toString().split('.')[1].length;
+        return numberOfDecimals  > 4 ? Number(res.toFixed(4)) : res; 
+    }
+     
+}
+
 
 function substract(num1,num2) {
     if(result) {
@@ -160,7 +180,7 @@ function percentage(num1,num2) {
     return decNum * num2;
 }
 
-// function changeClear() {  
+// function changeClearBtn() {  
 //     if(num1.length > 0 && !mathOperation && !num2) {
 //         toggleClearBtn.allClear = false;
 //         toggleClearBtn.clear = true;
@@ -185,7 +205,7 @@ function percentage(num1,num2) {
 //         clearAllBtn.style.display = "block";
 //         clearBtn.style.display = "none"; 
 //     } 
-// }s
+// }
     
 
 
