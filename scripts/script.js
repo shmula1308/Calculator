@@ -29,6 +29,7 @@ function displayResult(result) {
     }
     if(result.toString().length > 8) {
         resultCont.textContent = "ERR";
+        console.log(num1,num2,result,mathOperation)
         return;
     } 
     
@@ -78,7 +79,7 @@ function getOperands(ev) {
         if(resultCont.textContent === "ERR") {
             return;
         }
-        
+
         if(ev.target.dataset.value === '.' && num1[1] === '.' ) {
             return;
         }
@@ -202,26 +203,34 @@ function changeClearBtn() {
 
 function clear() {
     if(num1 && !mathOperation && !num2) {
+        console.log(1)
         num1 = "";
         resultCont.textContent = "0";
         changeClearBtn();
     }
     if(num1 && mathOperation && !num2) {
+        console.log(2)
         mathOperation = "";
         operationBtns.forEach(btn => btn.classList.remove("btn-active"))
         changeClearBtn();
     }
-    if(num1 && mathOperation && num2) {
+    if(num1 && mathOperation && num2 && !result) {
+        console.log(3)
         num2 = "";
         resultCont.textContent = "0";
         changeClearBtn();
     }
     if(!num1 && mathOperation && !num2 && result) {
+        console.log(3)
         mathOperation = "";
         operationBtns.forEach(btn => btn.classList.remove("btn-active"))
         resultCont.textContent = "0";
         changeClearBtn();
     }
+    if(num1 && mathOperation && num2 && result && resultCont.textContent === "ERR") {
+        clearAll();
+    }
+    
     
 }
 /**
@@ -234,6 +243,6 @@ function clearAll() {
     mathOperation = "";
     result = "";
     resultCont.textContent = "0";
-    operationBtns.forEach(btn => btn.classList.remove("btn-active"))
+    operationBtns.forEach(btn => btn.classList.remove("btn-active"));
 }
 
