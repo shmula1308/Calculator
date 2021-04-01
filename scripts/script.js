@@ -5,7 +5,7 @@ const resultCont = document.querySelector('.result-container');
 const clearAllBtn = document.querySelector('.all-clear');
 const clearBtn = document.querySelector('.clear-btn');
 let operationBtns = operationsContainer.querySelectorAll('button');
-
+const plusMinusBtn = document.querySelector('[data-value="plusMinus"]');
 
 let num1 = '';
 let num2 = '';
@@ -22,6 +22,7 @@ digitContainer.addEventListener('click',getOperands);
 operationsContainer.addEventListener('click',getOperation);
 clearBtn.addEventListener('click',clear);
 clearAllBtn.addEventListener('click',clearAll);
+plusMinusBtn.addEventListener('click', plusMinusToggle)
 
 function displayResult(result) {
     if(result === undefined) {
@@ -48,10 +49,15 @@ function updateDisplay(value){
 }
 
 function getOperation(ev) {
+
+    if(!num1 && !num2 && !result) {
+        return;
+    }
     
     if(ev.target.dataset.value === "=") {
        getResult(num1,num2,mathOperation);
        mathOperation = "";
+       
     }
 
     if(mathOperation) {
@@ -142,6 +148,7 @@ function add(num1,num2) {
     if(result) {
         return Number(result) + Number(num2);
     } else {
+        console.log(num1,num2)
         return Number(num1) + Number(num2);
     }
 }
@@ -197,10 +204,6 @@ function changeClearBtn() {
     }
 }
 
-
-    
-
-
 function clear() {
     if(num1 && !mathOperation && !num2) {
         console.log(1)
@@ -230,8 +233,6 @@ function clear() {
     if(num1 && mathOperation && num2 && result && resultCont.textContent === "ERR") {
         clearAll();
     }
-    
-    
 }
 /**
  * @param {number} num2 Learn jsDoc
@@ -246,3 +247,32 @@ function clearAll() {
     operationBtns.forEach(btn => btn.classList.remove("btn-active"));
 }
 
+
+function plusMinusToggle(ev) {
+    let value = resultCont.textContent;
+    
+    if(resultCont.textContent > 0 && value === num1){
+        resultCont.textContent = -value;
+        num1 = -num1;
+        console.log(num1)
+    } else if(resultCont.textContent < 0 && value === num1) {
+        resultCont.textContent = -value;
+        num1 = -num1;
+        console.log(num1)
+    }
+    if(resultCont.textContent > 0 && value === num2){
+        resultCont.textContent = -value;
+        num2 = -num2;
+    } else if(resultCont.textContent < 0 && value === num2) {
+        resultCont.textContent = -value;
+        num2 = -num2;
+    }
+
+    if(resultCont.textContent > 0 && value == result){
+        resultCont.textContent = -value;
+        result = -result;
+    } else if(resultCont.textContent < 0 && value == result) {
+        resultCont.textContent = -value;
+        result = -result;
+    }
+}
