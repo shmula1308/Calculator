@@ -6,6 +6,7 @@ const clearAllBtn = document.querySelector('.all-clear');
 const clearBtn = document.querySelector('.clear-btn');
 let operationBtns = operationsContainer.querySelectorAll('button');
 const plusMinusBtn = document.querySelector('[data-value="plusMinus"]');
+const percentBtn = document.querySelector('[data-value="percent"');
 
 let num1 = '';
 let num2 = '';
@@ -22,7 +23,9 @@ digitContainer.addEventListener('click',getOperands);
 operationsContainer.addEventListener('click',getOperation);
 clearBtn.addEventListener('click',clear);
 clearAllBtn.addEventListener('click',clearAll);
-plusMinusBtn.addEventListener('click', plusMinusToggle)
+plusMinusBtn.addEventListener('click', plusMinusToggle);
+percentBtn.addEventListener('click', calcPercent)
+
 
 function displayResult(result) {
     if(result === undefined) {
@@ -185,9 +188,16 @@ function substract(num1,num2) {
     }
 }
 
-function percentage(num1,num2) {
-    let decNum = num1 / 100;
-    return decNum * num2;
+function calcPercent() {
+    if(num1 && !num2 && !mathOperation && !result) {
+        num1 = num1/100;
+        resultCont.textContent = num1;
+    }
+    if(num1 && num2 && mathOperation && !result) {
+        num2 = num2/100;
+        let percentRes = num1 * num2;
+        resultCont.textContent = percentRes;
+    }
 }
 
 function changeClearBtn() {  
